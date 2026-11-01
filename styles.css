@@ -84,3 +84,13 @@ footer .cols{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
 .gallery img{aspect-ratio:4/3;object-fit:cover}
 .hero-img{max-height:540px;object-fit:cover}
 .about-img{max-height:400px;object-fit:cover}
+
+.gallery figure{display:flex;flex-direction:column;height:100%}
+.gallery figcaption{margin-top:auto}
+.img-slider{overflow:hidden;border-top:1px solid var(--line);background:#081120;padding:16px 0}
+.img-track{display:flex;width:max-content;animation:aqslide 32s linear infinite}
+.img-slider:hover .img-track{animation-play-state:paused}
+.img-track a{flex:0 0 auto;margin-right:14px}
+.img-track img{height:150px;width:auto;display:block;border-radius:10px;border:1px solid var(--line)}
+@keyframes aqslide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.img-track{animation:none}}
