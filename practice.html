@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Practice Dashboard — Checklists & Weekly Routine | AQadeer GEO.Com</title>
+<meta name="description" content="Abdul Qadeer's SEO practice dashboard: on-page SEO checklist, weekly practice routine and keyword worksheet — free to use, progress saves in your browser.">
+<meta name="robots" content="index, follow">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="SEO Practice Dashboard — Checklists & Weekly Routine | AQadeer GEO.Com">
+<meta property="og:description" content="Abdul Qadeer's SEO practice dashboard: on-page SEO checklist, weekly practice routine and keyword worksheet — free to use, progress saves in your browser.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0b1526">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"AQadeer GEO.Com","description":"Abdul Qadeer's SEO practice dashboard: on-page SEO checklist, weekly practice routine and keyword worksheet — free to use, progress saves in your browser.","email":"abdulqadeer84663@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Lahore","addressCountry":"PK"},"founder":{"@type":"Person","name":"Abdul Qadeer","jobTitle":"SEO & Digital Marketing Specialist"}}
+</script>
+</head>
+<body>
+
+<header><div class="wrap nav">
+<a class="logo" href="index.html">AQadeer <span>GEO.Com</span></a>
+<nav class="menu">
+<a href="index.html">Home</a><a href="services.html">Services</a><a href="seo-services.html">SEO</a><a href="about.html">About</a><a href="blog.html">Blog</a><a href="practice.html">SEO Practice</a><a href="tools.html">Free Tools</a>
+</nav>
+<a class="btn" href="contact.html">Get Free Consultation</a>
+</div></header>
+<div class="wrap">
+<section><p class="kicker">My Practice Area</p><h2>SEO Practice <em>Dashboard</em></h2>
+<p class="sub">This page is my daily practice ground &mdash; and yours too. The checklists save automatically in your browser. Tick items as you complete them on any website.</p>
+<h2 style="font-size:1.35rem">On-Page SEO Checklist</h2>
+<ul class="checklist" data-save="onpage">
+<li><label><input type="checkbox"> Target keyword researched (real search phrase, clear intent)</label></li>
+<li><label><input type="checkbox"> Title tag written (50&ndash;60 chars, keyword first)</label></li>
+<li><label><input type="checkbox"> Meta description written (150&ndash;160 chars, benefit + CTA)</label></li>
+<li><label><input type="checkbox"> One H1 only; H2/H3 in order</label></li>
+<li><label><input type="checkbox"> Keyword in first 100 words, used naturally</label></li>
+<li><label><input type="checkbox"> Images compressed + alt text added</label></li>
+<li><label><input type="checkbox"> 2&ndash;5 internal links added</label></li>
+<li><label><input type="checkbox"> Schema added (if suitable) &amp; page in sitemap</label></li>
+<li><label><input type="checkbox"> URL submitted in Google Search Console</label></li>
+</ul>
+<h2 style="font-size:1.35rem;margin-top:26px">Weekly Practice Routine</h2>
+<ul class="checklist" data-save="weekly">
+<li><label><input type="checkbox"> Publish 1 helpful blog article (checklist above applied)</label></li>
+<li><label><input type="checkbox"> Check Search Console: impressions, clicks, new queries</label></li>
+<li><label><input type="checkbox"> Fix 1 technical issue (speed, broken link, missing meta)</label></li>
+<li><label><input type="checkbox"> Add internal links from old posts to the new article</label></li>
+<li><label><input type="checkbox"> Update 1 old page (better title, fresh content)</label></li>
+<li><label><input type="checkbox"> Note rankings for 5 target keywords</label></li>
+</ul>
+<h2 style="font-size:1.35rem;margin-top:26px">Keyword Practice Worksheet</h2>
+<p class="sub">Type your practice keywords here &mdash; this table is an example worksheet, saved only in your browser if you copy it into your notes.</p>
+<table><tr><th>Keyword</th><th>Intent</th><th>Page / Article</th><th>Position (weekly)</th></tr>
+<tr><td>what is seo</td><td>Learning</td><td>blog/what-is-seo.html</td><td>Track in Search Console</td></tr>
+<tr><td>on page seo checklist</td><td>Learning</td><td>blog/on-page-seo-checklist.html</td><td>Track in Search Console</td></tr>
+<tr><td>seo services lahore</td><td>Buying</td><td>seo-services.html</td><td>Track in Search Console</td></tr></table>
+<div class="note"><strong>Practice rule I follow:</strong> never practise black-hat tricks (bought links, keyword stuffing, copied content) &mdash; practise only what I would safely do on a client's website.</div>
+</section>
+<script>
+document.querySelectorAll('.checklist').forEach(function(list){
+ var key='aq-'+list.dataset.save;
+ try{var saved=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){var saved=[];}
+ var boxes=list.querySelectorAll('input[type=checkbox]');
+ boxes.forEach(function(b,i){ b.checked=!!saved[i]; b.addEventListener('change',function(){
+   var state=[]; boxes.forEach(function(x){state.push(x.checked);});
+   localStorage.setItem(key,JSON.stringify(state)); }); });
+});
+</script>
+</div>
+<footer><div class="wrap"><div class="cols">
+<div><div class="logo">AQadeer <span>GEO.Com</span></div><p>SEO, GEO &amp; digital marketing services by Abdul Qadeer.<br>Grow your visibility. Grow your brand.</p></div>
+<div><p><strong>Pages</strong><br><a href="services.html">Services</a> · <a href="blog.html">Blog</a> · <a href="practice.html">SEO Practice</a><br><a href="tools.html">Free Tools</a> · <a href="about.html">About</a> · <a href="contact.html">Contact</a></p></div>
+<div><p><strong>Contact</strong><br>Email: <a href="mailto:abdulqadeer84663@gmail.com">abdulqadeer84663@gmail.com</a><br>Lahore, Pakistan — working online worldwide</p></div>
+</div><p style="margin-top:18px">© 2026 AQadeer GEO.Com — Abdul Qadeer. Honest SEO: no fake guarantees, no fake reviews.</p></div></footer>
+</body></html>
