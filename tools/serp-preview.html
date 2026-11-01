@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SERP Snippet Preview — AQadeer GEO.Com</title>
+<meta name="description" content="Free Google SERP snippet preview: see how your title and meta description will look in search results.">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.serp{font-family:Arial,sans-serif;background:#0b1526;border:1px solid var(--line);border-radius:10px;padding:18px;margin-top:16px}
+.serp .url{font-size:13px;color:#9aa0a6;line-height:1.3}
+.serp .url b{color:#e8eaed;font-weight:400}
+.serp .title{font-size:20px;line-height:1.35;color:#8ab4f8;cursor:pointer;margin:2px 0 4px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:600px}
+.serp .desc{font-size:14px;color:#bdc1c6;line-height:1.6}
+.meter{height:8px;border-radius:6px;background:#0b1526;border:1px solid var(--line);margin-top:6px;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:6px}
+.ok{color:var(--accent)} .warn{color:#fbbf24} .bad{color:#f87171}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../tools.html">← Back to all tools</a>
+  <div class="tool">
+    <h2>SERP Snippet Preview</h2>
+    <p class="sub">Type your title and description — see exactly how your page will appear in Google results. Titles over ~60 chars and descriptions over ~160 chars get cut off.</p>
+    <label>Page title</label>
+    <input type="text" id="t" placeholder="e.g. Best SEO Services in Lahore | AQadeer GEO" oninput="render()">
+    <div class="meter"><i id="tm"></i></div>
+    <p class="sub" id="tnote" style="margin-top:6px"></p>
+    <label>Meta description</label>
+    <textarea id="d" placeholder="e.g. AQadeer GEO.Com helps businesses grow online visibility with SEO, GEO and content strategy." oninput="render()"></textarea>
+    <div class="meter"><i id="dm"></i></div>
+    <p class="sub" id="dnote" style="margin-top:6px"></p>
+    <label>Page URL</label>
+    <input type="text" id="u" placeholder="https://aqadeergeo.pages.dev/services" oninput="render()">
+    <h3 style="margin-top:18px">Google result preview</h3>
+    <div class="serp">
+      <div class="url" id="purl">your-site.com › <b id="pslug">page</b></div>
+      <span class="title" id="ptitle">Your page title will appear here</span>
+      <div class="desc" id="pdesc">Your meta description will appear here, just like it will on Google.</div>
+    </div>
+  </div>
+</div>
+<footer><div class="wrap">© 2026 AQadeer GEO.Com</div></footer>
+<script>
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function bar(el, noteEl, len, ideal){
+  var p = Math.min(100, Math.round(len/ideal*100));
+  el.style.width = p + "%";
+  var cls, txt;
+  if(len === 0){ cls=""; txt="Start typing…"; }
+  else if(len <= ideal){ el.style.background="var(--accent)"; cls="ok"; txt=len+" / "+ideal+" — ideal range ✓"; }
+  else if(len <= ideal*1.25){ el.style.background="#fbbf24"; cls="warn"; txt=len+" / "+ideal+" — slightly long, may be cut off"; }
+  else { el.style.background="#f87171"; cls="bad"; txt=len+" / "+ideal+" — too long, will be cut off"; }
+  noteEl.className = "sub " + cls; noteEl.style.marginTop="6px"; noteEl.textContent = txt;
+}
+function render(){
+  var t=document.getElementById('t').value.trim(),
+      d=document.getElementById('d').value.trim(),
+      u=document.getElementById('u').value.trim();
+  bar(document.getElementById('tm'), document.getElementById('tnote'), t.length, 60);
+  bar(document.getElementById('dm'), document.getElementById('dnote'), d.length, 160);
+  document.getElementById('ptitle').textContent = t || "Your page title will appear here";
+  document.getElementById('pdesc').textContent = d || "Your meta description will appear here, just like it will on Google.";
+  if(u){
+    try{
+      var parsed = new URL(u.startsWith("http")?u:"https://"+u);
+      document.getElementById('purl').innerHTML = esc(parsed.hostname) + " › <b>" + esc(parsed.pathname.replace(/^\//,"").replace(/\//g," › ")||"home") + "</b>";
+    }catch(e){ document.getElementById('purl').textContent = u; }
+  } else {
+    document.getElementById('purl').innerHTML = 'your-site.com › <b>page</b>';
+  }
+}
+render();
+</script>
+</body>
+</html>

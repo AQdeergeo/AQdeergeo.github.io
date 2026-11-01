@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Counter &amp; Readability — AQadeer GEO.Com</title>
+<meta name="description" content="Free word counter: words, characters, sentences and Flesch reading ease score.">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../tools.html">← Back to all tools</a>
+  <div class="tool">
+    <h2>Word Counter &amp; Readability</h2>
+    <p class="sub">Paste your article or blog draft below — stats update as you type.</p>
+    <textarea id="txt" style="min-height:220px" placeholder="Paste your text here..." oninput="analyze()"></textarea>
+    <div class="stats">
+      <div class="stat"><b id="w">0</b> words</div>
+      <div class="stat"><b id="c">0</b> characters</div>
+      <div class="stat"><b id="cn">0</b> characters (no spaces)</div>
+      <div class="stat"><b id="s">0</b> sentences</div>
+      <div class="stat"><b id="p">0</b> paragraphs</div>
+      <div class="stat"><b id="f">–</b> Flesch reading ease</div>
+    </div>
+    <p class="sub" id="grade" style="margin-top:14px"></p>
+  </div>
+</div>
+<footer><div class="wrap">© 2026 AQadeer GEO.Com</div></footer>
+<script>
+function syllables(word){
+  word=word.toLowerCase().replace(/[^a-z]/g,'');
+  if(word.length<=3)return 1;
+  word=word.replace(/(?:[^laeiouy]e|ed|es)$/,'').replace(/^y/,'');
+  const m=word.match(/[aeiouy]{1,2}/g);
+  return m?m.length:1;
+}
+function analyze(){
+  const t=document.getElementById('txt').value;
+  const words=t.trim()?t.trim().split(/\s+/):[];
+  const sentences=t.trim()?t.split(/[.!?]+/).filter(x=>x.trim().length):[];
+  const paras=t.trim()?t.split(/\n+/).filter(x=>x.trim().length):[];
+  let syl=0; words.forEach(w=>syl+=syllables(w));
+  document.getElementById('w').textContent=words.length;
+  document.getElementById('c').textContent=t.length;
+  document.getElementById('cn').textContent=t.replace(/\s/g,'').length;
+  document.getElementById('s').textContent=sentences.length;
+  document.getElementById('p').textContent=paras.length;
+  const g=document.getElementById('grade');
+  if(words.length>0&&sentences.length>0){
+    const wps=words.length/sentences.length, spw=syl/words.length;
+    const score=Math.max(0,Math.min(100,Math.round(206.835-1.015*wps-84.6*spw)));
+    document.getElementById('f').textContent=score;
+    let label=score>=90?"Very easy to read — great for a wide audience.":
+              score>=80?"Easy to read — conversational English.":
+              score>=70?"Fairly easy — good for most web content.":
+              score>=60?"Standard — fine for educated readers.":
+              score>=50?"Fairly difficult — consider simplifying.":
+              score>=30?"Difficult — best for specialists.":
+                        "Very difficult — simplify for web readers.";
+    g.textContent="Score "+score+": "+label;
+  }else{document.getElementById('f').textContent="–";g.textContent="";}
+}
+</script>
+</body>
+</html>

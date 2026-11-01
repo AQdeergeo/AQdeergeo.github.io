@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robots.txt Generator — AQadeer GEO.Com</title>
+<meta name="description" content="Free robots.txt generator: control what search engines can crawl on your site.">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../tools.html">← Back to all tools</a>
+  <div class="tool">
+    <h2>Robots.txt Generator</h2>
+    <p class="sub">Choose your crawl rules — the file is generated instantly, ready to upload to your site root.</p>
+    <div class="row">
+      <div>
+        <label>Default rule for all bots</label>
+        <select id="mode" onchange="gen()">
+          <option value="allow">Allow everything (recommended)</option>
+          <option value="block">Block everything (staging / private site)</option>
+          <option value="custom">Custom (set rules below)</option>
+        </select>
+      </div>
+      <div>
+        <label>Crawl delay (seconds, optional)</label>
+        <input type="text" id="delay" placeholder="e.g. 5" oninput="gen()">
+      </div>
+    </div>
+    <div id="custom" style="display:none">
+      <label>Disallow these paths (one per line, e.g. /admin/ /private/)</label>
+      <textarea id="dis" placeholder="/admin/&#10;/private/&#10;/tmp/" oninput="gen()"></textarea>
+    </div>
+    <label>Sitemap URL (optional)</label>
+    <input type="text" id="sm" placeholder="https://example.com/sitemap.xml" oninput="gen()">
+    <div class="output" id="out">User-agent: *
+Allow: /</div>
+    <br><button class="btn" onclick="dl()">Download robots.txt</button>
+    <button class="btn ghost" onclick="copy()">Copy</button>
+  </div>
+</div>
+<footer><div class="wrap">© 2026 AQadeer GEO.Com</div></footer>
+<script>
+function gen(){
+  const mode=document.getElementById('mode').value;
+  document.getElementById('custom').style.display=mode==='custom'?'block':'none';
+  let r="User-agent: *\n";
+  if(mode==='block'){r+="Disallow: /\n";}
+  else if(mode==='custom'){
+    const lines=document.getElementById('dis').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    if(lines.length)lines.forEach(l=>r+="Disallow: "+(l.startsWith('/')?l:'/'+l)+"\n");
+    else r+="Allow: /\n";
+  }else{r+="Allow: /\n";}
+  const delay=document.getElementById('delay').value.trim();
+  if(delay&&/^\d+$/.test(delay))r+="Crawl-delay: "+delay+"\n";
+  const sm=document.getElementById('sm').value.trim();
+  if(sm)r+="\nSitemap: "+sm+"\n";
+  document.getElementById('out').textContent=r;
+}
+function copy(){
+  const tmp=document.createElement('textarea');
+  tmp.value=document.getElementById('out').innerText;
+  document.body.appendChild(tmp);tmp.select();
+  document.execCommand('copy');document.body.removeChild(tmp);
+  alert('robots.txt copied!');
+}
+function dl(){
+  const blob=new Blob([document.getElementById('out').innerText],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='robots.txt';a.click();
+}
+</script>
+</body>
+</html>

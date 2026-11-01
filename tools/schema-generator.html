@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schema / JSON-LD Generator — AQadeer GEO.Com</title>
+<meta name="description" content="Free schema markup generator: create JSON-LD structured data (LocalBusiness, FAQ, Article) that helps Google and AI search understand your pages.">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../tools.html">← Back to all tools</a>
+  <div class="tool">
+    <h2>Schema / JSON-LD Generator</h2>
+    <p class="sub">Structured data helps Google <em>and</em> AI search engines (ChatGPT, Gemini, Perplexity) understand your page. Fill the fields, pick a schema type, and paste the generated JSON-LD into your page's <code>&lt;head&gt;</code>.</p>
+    <label>Schema type</label>
+    <select id="type" onchange="build()">
+      <option value="local">Local Business</option>
+      <option value="faq">FAQ Page</option>
+      <option value="article">Article</option>
+    </select>
+
+    <div id="f-local">
+      <label>Business name</label>
+      <input type="text" id="bname" placeholder="e.g. AQadeer GEO.Com" oninput="build()">
+      <label>Business type</label>
+      <input type="text" id="btype" placeholder="e.g. ProfessionalService" oninput="build()">
+      <div class="row">
+        <div><label>Phone</label><input type="text" id="bphone" placeholder="e.g. +92 300 1234567" oninput="build()"></div>
+        <div><label>Website URL</label><input type="text" id="burl" placeholder="https://…" oninput="build()"></div>
+      </div>
+      <label>Address (city, country)</label>
+      <input type="text" id="baddr" placeholder="e.g. Lahore, Pakistan" oninput="build()">
+      <label>Services offered (comma separated)</label>
+      <input type="text" id="bsvc" placeholder="e.g. SEO, GEO, Content Strategy" oninput="build()">
+    </div>
+
+    <div id="f-faq" style="display:none">
+      <label>Questions &amp; answers (one per line: Question | Answer)</label>
+      <textarea id="faq" style="min-height:170px" placeholder="What is GEO? | GEO stands for Generative Engine Optimization — making your brand visible in AI answers.&#10;How much do SEO services cost? | Pricing depends on scope; contact us for a free audit." oninput="build()"></textarea>
+    </div>
+
+    <div id="f-article" style="display:none">
+      <label>Headline</label>
+      <input type="text" id="ahead" placeholder="e.g. What Is GEO? A Simple Guide for Businesses" oninput="build()">
+      <label>Author name</label>
+      <input type="text" id="aauthor" placeholder="e.g. Abdul Qadeer" oninput="build()">
+      <label>Publish date</label>
+      <input type="text" id="adate" placeholder="e.g. 2026-10-22" oninput="build()">
+      <label>Article description</label>
+      <textarea id="adesc" placeholder="One or two sentences about the article." oninput="build()"></textarea>
+    </div>
+
+    <div class="output" id="out">&lt;!-- your JSON-LD will appear here --&gt;</div>
+    <br><button class="btn" onclick="copy()">Copy JSON-LD</button>
+  </div>
+</div>
+<footer><div class="wrap">© 2026 AQadeer GEO.Com</div></footer>
+<script>
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function val(id){return document.getElementById(id).value.trim();}
+function build(){
+  var type = document.getElementById('type').value;
+  document.getElementById('f-local').style.display = type==='local'?'block':'none';
+  document.getElementById('f-faq').style.display = type==='faq'?'block':'none';
+  document.getElementById('f-article').style.display = type==='article'?'block':'none';
+  var schema;
+  if(type==='local'){
+    schema = {"@context":"https://schema.org","@type":val('btype')||"LocalBusiness"};
+    if(val('bname'))schema.name=val('bname');
+    if(val('burl'))schema.url=val('burl');
+    if(val('bphone'))schema.telephone=val('bphone');
+    if(val('baddr'))schema.address={"@type":"PostalAddress","addressLocality":val('baddr')};
+    var svc = val('bsvc').split(',').map(function(s){return s.trim();}).filter(Boolean);
+    if(svc.length)schema.makesOffer=svc.map(function(s){return {"@type":"Offer","itemOffered":{"@type":"Service","name":s}};});
+  } else if(type==='faq'){
+    var items = [];
+    val('faq').split('\n').forEach(function(line){
+      var parts = line.split('|');
+      if(parts.length>=2 && parts[0].trim() && parts[1].trim())
+        items.push({"@type":"Question","name":parts[0].trim(),"acceptedAnswer":{"@type":"Answer","text":parts[1].trim()}});
+    });
+    schema = {"@context":"https://schema.org","@type":"FAQPage","mainEntity":items};
+  } else {
+    schema = {"@context":"https://schema.org","@type":"Article"};
+    if(val('ahead'))schema.headline=val('ahead');
+    if(val('aauthor'))schema.author={"@type":"Person","name":val('aauthor')};
+    if(val('adate'))schema.datePublished=val('adate');
+    if(val('adesc'))schema.description=val('adesc');
+  }
+  var code = '<script type="application/ld+json">\n'+JSON.stringify(schema,null,2)+'\n<\/script>';
+  document.getElementById('out').innerHTML = esc(code);
+  document.getElementById('out').dataset.raw = code;
+}
+function copy(){
+  var tmp=document.createElement('textarea');
+  tmp.value=document.getElementById('out').dataset.raw||'';
+  document.body.appendChild(tmp);tmp.select();
+  document.execCommand('copy');document.body.removeChild(tmp);
+  alert('JSON-LD copied!');
+}
+build();
+</script>
+</body>
+</html>

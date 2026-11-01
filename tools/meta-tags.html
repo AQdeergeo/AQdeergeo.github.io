@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Tag Generator — AQadeer GEO.Com</title>
+<meta name="description" content="Free meta tag generator: create SEO title tags, meta descriptions and Open Graph tags.">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../tools.html">← Back to all tools</a>
+  <div class="tool">
+    <h2>Meta Tag Generator</h2>
+    <p class="sub">Fill in the fields — your tags are generated instantly. Green length bars mean you're in the ideal range.</p>
+    <label>Page title (aim 50–60 characters)</label>
+    <input type="text" id="t" placeholder="e.g. Best SEO Services in Lahore | AQadeer GEO" oninput="gen()">
+    <label>Meta description (aim 150–160 characters)</label>
+    <textarea id="d" placeholder="e.g. AQadeer GEO.Com helps businesses grow online visibility with SEO, GEO and content strategy." oninput="gen()"></textarea>
+    <div class="row">
+      <div><label>Keywords (comma separated)</label><input type="text" id="k" placeholder="SEO, GEO, digital marketing" oninput="gen()"></div>
+      <div><label>Page URL</label><input type="text" id="u" placeholder="https://example.com/page" oninput="gen()"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="tl">0</b> title characters</div>
+      <div class="stat"><b id="dl">0</b> description characters</div>
+    </div>
+    <div class="output" id="out">&lt;!-- your tags will appear here --&gt;</div>
+    <br><button class="btn" onclick="copy()">Copy tags</button>
+  </div>
+</div>
+<footer><div class="wrap">© 2026 AQadeer GEO.Com</div></footer>
+<script>
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function gen(){
+  const t=document.getElementById('t').value.trim(), d=document.getElementById('d').value.trim(),
+        k=document.getElementById('k').value.trim(), u=document.getElementById('u').value.trim();
+  document.getElementById('tl').textContent=t.length;
+  document.getElementById('dl').textContent=d.length;
+  let h="";
+  if(t)h+="&lt;title&gt;"+esc(t)+"&lt;/title&gt;\n";
+  if(d)h+="&lt;meta name=\"description\" content=\""+esc(d)+"\"&gt;\n";
+  if(k)h+="&lt;meta name=\"keywords\" content=\""+esc(k)+"\"&gt;\n";
+  if(u)h+="&lt;link rel=\"canonical\" href=\""+esc(u)+"\"&gt;\n";
+  if(t)h+="&lt;meta property=\"og:title\" content=\""+esc(t)+"\"&gt;\n";
+  if(d)h+="&lt;meta property=\"og:description\" content=\""+esc(d)+"\"&gt;\n";
+  if(u)h+="&lt;meta property=\"og:url\" content=\""+esc(u)+"\"&gt;\n&lt;meta property=\"og:type\" content=\"website\"&gt;\n";
+  if(t)h+="&lt;meta name=\"twitter:card\" content=\"summary_large_image\"&gt;\n&lt;meta name=\"twitter:title\" content=\""+esc(t)+"\"&gt;\n";
+  if(d)h+="&lt;meta name=\"twitter:description\" content=\""+esc(d)+"\"&gt;\n";
+  document.getElementById('out').innerHTML=h||"&lt;!-- your tags will appear here --&gt;";
+}
+function copy(){
+  const tmp=document.createElement('textarea');
+  tmp.value=document.getElementById('out').innerText;
+  document.body.appendChild(tmp);tmp.select();
+  document.execCommand('copy');document.body.removeChild(tmp);
+  alert('Tags copied!');
+}
+</script>
+</body>
+</html>

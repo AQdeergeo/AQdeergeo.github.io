@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyword Density Checker — AQadeer GEO.Com</title>
+<meta name="description" content="Free keyword density checker: find over-optimization risks and keep your content naturally balanced.">
+<link rel="stylesheet" href="../styles.css">
+<style>
+table{width:100%;border-collapse:collapse;margin-top:16px;font-size:.95rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600}
+td b{color:var(--accent)}
+.verdict{margin-top:14px;padding:14px 16px;border-radius:10px;border:1px solid var(--line);background:#071120}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../tools.html">← Back to all tools</a>
+  <div class="tool">
+    <h2>Keyword Density Checker</h2>
+    <p class="sub">Paste your article text — the tool counts every word and shows density. As a rule of thumb, keep your main keyword under ~2% to stay natural; very high density can look like keyword stuffing to Google.</p>
+    <label>Article text</label>
+    <textarea id="text" style="min-height:220px" placeholder="Paste your article here…" oninput="analyze()"></textarea>
+    <label>Target keyword (optional)</label>
+    <input type="text" id="kw" placeholder="e.g. SEO services Lahore" oninput="analyze()">
+    <div class="stats">
+      <div class="stat"><b id="wc">0</b> words</div>
+      <div class="stat"><b id="cc">0</b> characters</div>
+      <div class="stat"><b id="sc">0</b> sentences</div>
+      <div class="stat"><b id="kd">–</b> target keyword density</div>
+    </div>
+    <div class="verdict" id="verdict">Paste some text to get an analysis.</div>
+    <h3 style="margin-top:20px">Top words</h3>
+    <table>
+      <thead><tr><th>Word</th><th>Count</th><th>Density</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="3" style="color:var(--muted)">No data yet.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+<footer><div class="wrap">© 2026 AQadeer GEO.Com</div></footer>
+<script>
+var STOP = new Set(("a,an,the,and,or,but,if,then,else,when,at,by,for,with,about,into,through,during,before,after,above,below,to,from,up,down,in,out,on,off,over,under,again,further,once,here,there,all,any,both,each,few,more,most,other,some,such,no,nor,not,only,own,same,so,than,too,very,can,will,just,don,should,now,is,are,was,were,be,been,being,have,has,had,having,do,does,did,doing,would,could,ought,i,you,he,she,it,we,they,them,their,this,that,these,those,am,of,as,at,my,our,your,his,her,its,me,him,us,what,which,who,whom,because,until,while,of,ka,ki,ke,ko,se,mein,par,aur,hai,hain,koi,yeh,yah,vah,vo,un,unki,unse").split(","));
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function analyze(){
+  var text = document.getElementById('text').value;
+  var kw = document.getElementById('kw').value.trim().toLowerCase();
+  var words = (text.toLowerCase().match(/[a-z0-9\u00C0-\u024F\u0600-\u06FF]+/gi) || []);
+  var total = words.length;
+  document.getElementById('wc').textContent = total.toLocaleString();
+  document.getElementById('cc').textContent = text.length.toLocaleString();
+  var sentences = text.split(/[.!?]+/).filter(function(s){return s.trim().length>0;}).length;
+  document.getElementById('sc').textContent = sentences;
+  var freq = {};
+  words.forEach(function(w){ if(!STOP.has(w)) freq[w]=(freq[w]||0)+1; });
+  var sorted = Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];}).slice(0,20);
+  var html = "";
+  sorted.forEach(function(w){
+    var d = (freq[w]/total*100).toFixed(2);
+    html += "<tr><td>"+esc(w)+"</td><td><b>"+freq[w]+"</b></td><td>"+d+"%</td></tr>";
+  });
+  document.getElementById('rows').innerHTML = html || '<tr><td colspan="3" style="color:var(--muted)">No data yet.</td></tr>';
+  if(total === 0){
+    document.getElementById('kd').textContent = "–";
+    document.getElementById('verdict').textContent = "Paste some text to get an analysis.";
+    return;
+  }
+  var v = document.getElementById('verdict');
+  if(kw){
+    var count = 0, low = text.toLowerCase(), i = low.indexOf(kw);
+    while(i !== -1){ count++; i = low.indexOf(kw, i+kw.length); }
+    var dens = (count/Math.max(1,total)*100);
+    document.getElementById('kd').textContent = dens.toFixed(2)+"% ("+count+"×)";
+    if(dens <= 2) v.innerHTML = "<b style='color:var(--accent)'>Looks natural ✓</b><br>“"+esc(kw)+"” appears "+count+" time(s) at "+dens.toFixed(2)+"% density — a healthy, natural level.";
+    else if(dens <= 4) v.innerHTML = "<b style='color:#fbbf24'>A bit high</b><br>“"+esc(kw)+"” is at "+dens.toFixed(2)+"% — consider rephrasing some uses so the text reads naturally.";
+    else v.innerHTML = "<b style='color:#f87171'>Too high</b><br>“"+esc(kw)+"” is at "+dens.toFixed(2)+"% — this may look like keyword stuffing. Rewrite some sentences to reduce repetition.";
+  } else {
+    document.getElementById('kd').textContent = "–";
+    v.innerHTML = "Add a <b>target keyword</b> above to get a density verdict. Meanwhile, the top-words table shows which terms dominate your text.";
+  }
+}
+analyze();
+</script>
+</body>
+</html>
