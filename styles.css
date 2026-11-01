@@ -54,3 +54,29 @@ footer .cols{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
 
 .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 .back{display:inline-block;margin:26px 0 0;color:var(--muted)}
+
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}
+.hero-img{width:100%;border-radius:16px;border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.45)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.gallery figure{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.gallery img{width:100%;display:block}
+.gallery figcaption{padding:10px 14px;color:var(--muted);font-size:.88rem}
+.wa{background:#25d366;color:#04140a}
+.about-img{width:280px;max-width:100%;border-radius:14px;border:1px solid var(--line);float:right;margin:4px 0 14px 22px}
+@media(max-width:800px){.hero-grid{grid-template-columns:1fr}.about-img{float:none;margin:0 0 14px}}
+
+.banner-img{width:100%;border-radius:16px;border:1px solid var(--line);box-shadow:0 22px 60px rgba(0,0,0,.5);margin-top:26px}
+.card{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-5px);border-color:var(--green);box-shadow:0 16px 40px rgba(46,204,113,.12)}
+.btn{transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(46,204,113,.35)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;counter-reset:step}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.step .num{display:inline-flex;width:40px;height:40px;border-radius:50%;background:var(--green);color:#04140a;font-weight:800;align-items:center;justify-content:center;font-size:1.05rem;margin-bottom:10px}
+.pkg.pop{border-color:var(--green);box-shadow:0 16px 44px rgba(46,204,113,.15)}
+.pkg ul{list-style:none;margin:10px 0 16px}
+.pkg li{padding:6px 0;color:var(--muted);border-bottom:1px dashed var(--line)}
+.pkg li:before{content:"\2713  ";color:var(--green);font-weight:700}
+.wa-float{position:fixed;right:18px;bottom:18px;z-index:99;background:#25d366;color:#04140a;font-weight:800;padding:13px 18px;border-radius:999px;box-shadow:0 12px 30px rgba(0,0,0,.45);text-decoration:none}
+.wa-float:hover{background:#3ee07a;text-decoration:none}
+.hero h1{font-size:clamp(2.2rem,5.2vw,3.6rem)}
